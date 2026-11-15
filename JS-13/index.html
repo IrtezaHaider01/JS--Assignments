@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse, filter and sort a curated collection of products.">
+  <title>Forma — Curated Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Forma home"><span class="brand-mark">f.</span> forma</a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="active" href="#collection">Shop</a><a href="#collection">Collections</a><a href="#about">About</a>
+    </nav>
+    <button class="cart-button" id="cartButton" aria-label="Shopping cart">Bag <span id="cartCount">0</span></button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">THE EVERYDAY EDIT · 2026</p>
+        <h1>Good things.<br><em>Better living.</em></h1>
+        <p class="hero-description">Thoughtful essentials for the spaces you live in and the life you love.</p>
+        <a class="hero-link" href="#collection">Explore the collection <span>↘</span></a>
+      </div>
+      <div class="hero-image" role="img" aria-label="Minimal living room with warm neutral decor">
+        <div class="hero-note"><span>01 / 04</span><br>Made for everyday moments</div>
+      </div>
+    </section>
+
+    <section class="collection-section" id="collection">
+      <div class="section-heading">
+        <div><p class="eyebrow">FIND YOUR FAVOURITES</p><h2>The collection<span class="heading-dot">.</span></h2></div>
+        <p class="section-intro">A considered mix of useful, beautiful things.</p>
+      </div>
+
+      <div class="toolbar">
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search products..." aria-label="Search products"></label>
+        <label class="sort-control"><span>Sort by</span>
+          <select id="sortSelect">
+            <option value="default">Default sorting</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating-asc">Rating: Low to High</option>
+            <option value="rating-desc">Rating: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="shop-layout">
+        <aside class="filters" aria-label="Product filters">
+          <div class="filter-top"><h3>Filters</h3><button id="clearAll" class="text-button">Clear all</button></div>
+          <div class="filter-group">
+            <h4>Category</h4>
+            <div id="categoryOptions" class="category-options"></div>
+            <button id="clearCategories" class="small-clear">Clear categories</button>
+          </div>
+          <div class="filter-group">
+            <h4>Price range</h4>
+            <div class="price-inputs">
+              <label><span>Min (Rs.)</span><input id="minPrice" type="number" min="0" placeholder="0"></label>
+              <label><span>Max (Rs.)</span><input id="maxPrice" type="number" min="0" placeholder="Any"></label>
+            </div>
+            <p id="priceRangeLabel" class="range-label">All prices</p>
+          </div>
+          <div class="filter-group">
+            <h4>Customer rating</h4>
+            <div class="rating-options">
+              <label><input type="radio" name="rating" value="0" checked><span>All ratings</span></label>
+              <label><input type="radio" name="rating" value="4"><span>★★★★☆ <small>&amp; above</small></span></label>
+              <label><input type="radio" name="rating" value="3"><span>★★★☆☆ <small>&amp; above</small></span></label>
+              <label><input type="radio" name="rating" value="2"><span>★★☆☆☆ <small>&amp; above</small></span></label>
+              <label><input type="radio" name="rating" value="1"><span>★☆☆☆☆ <small>&amp; above</small></span></label>
+            </div>
+          </div>
+        </aside>
+
+        <div class="products-area">
+          <div class="results-row">
+            <p><strong id="resultCount">0</strong> products</p>
+            <div id="activeFilters" class="active-filters" aria-live="polite"></div>
+          </div>
+          <div id="productGrid" class="product-grid"></div>
+          <div id="emptyState" class="empty-state" hidden>
+            <div class="empty-icon">⌕</div><h3>No products found</h3>
+            <p>Try adjusting your search or removing some filters.</p>
+            <button id="emptyClear" class="dark-button">Clear all filters</button>
+          </div>
+          <div class="load-more-wrap"><button id="loadMore" class="outline-button">Load more</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="bottom-banner" id="about"><p class="eyebrow">LESS, BUT BETTER</p><h2>Make room for<br><em>what matters.</em></h2><a href="#collection">Shop the edit ↗</a></section>
+  </main>
+
+  <footer><a class="brand" href="#"><span class="brand-mark">f.</span> forma</a><p>Considered essentials. Everyday living.</p><span>© 2026 Forma Studio</span></footer>
+
+  <div class="modal-backdrop" id="productModal" hidden>
+    <section class="product-modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+      <button class="modal-close" id="modalClose" aria-label="Close details">×</button>
+      <img id="modalImage" src="" alt="">
+      <div class="modal-info"><p class="eyebrow" id="modalCategory"></p><h2 id="modalName"></h2><p id="modalRating" class="rating"></p><p id="modalPrice" class="modal-price"></p><p id="modalDescription"></p><button id="modalAdd" class="dark-button">Add to bag</button></div>
+    </section>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
